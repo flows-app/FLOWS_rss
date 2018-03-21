@@ -10,14 +10,6 @@ Resources:
         Fn::GetAtt: [ LambdaRole , Arn ]
       Runtime: nodejs6.10
       Timeout: 300
-  MESHIFYrssnewpostConfig:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Name: "/MESHIFY/MESHIFY/rss/newpost/lambda"
-      Description: meshify rss newpost task arn
-      Type: String
-      Value:
-        Fn::GetAtt: [ MESHIFYrssnewpostFunction , Arn ]
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -42,3 +34,8 @@ Resources:
               - logs:CreateLogStream
               - logs:PutLogEvents
               Resource: arn:aws:logs:*:*:*
+Outputs:
+  MESHIFYrssnewpostFunction:
+    Description: '/MESHIFY/MESHIFY/rss/newpost/lambda'
+    Value:
+      Fn::GetAtt: [ MESHIFYrssnewpostFunction , Arn ]
