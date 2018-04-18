@@ -34,8 +34,36 @@ Resources:
               - logs:CreateLogStream
               - logs:PutLogEvents
               Resource: arn:aws:logs:*:*:*
+  InvokeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            AWS:
+            - 321232316075
+            - 184705290838
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: LambdaRolePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+              - lambda:InvokeFunction
+              Resource:
+                Fn::GetAtt: [ MESHIFYrssnewpostFunction , Arn ]
 Outputs:
   MESHIFYrssnewpostFunction:
     Description: '/MESHIFY/MESHIFY/rss/newpost/lambda'
     Value:
       Fn::GetAtt: [ MESHIFYrssnewpostFunction , Arn ]
+  MESHIFYrssnewpostRole:
+    Description: '/MESHIFY/MESHIFY/rss/newpost/role'
+    Value:
+      Fn::GetAtt: [ InvokeRole , Arn ]
