@@ -13,8 +13,12 @@ exports.handler = (event, context,callback) => {
   //var req = request('http://somefeedurl.xml')
   var req = REQUEST(event.url);
 
+  var result = [];
+
   req.on('error', function (error) {
     // handle any request errors
+    console.log("an error happened");
+    console.log(error);
   });
 
   req.on('response', function (res) {
@@ -30,9 +34,9 @@ exports.handler = (event, context,callback) => {
 
   feedparser.on('error', function (error) {
     // always handle errors
+    console.log("an error happened");
+    console.log(error);
   });
-
-  var result = [];
 
   feedparser.on('readable', function () {
     // This is where the action is!
@@ -57,6 +61,7 @@ exports.handler = (event, context,callback) => {
       let description = item.description;
       let summary = item.summary;
       let date = item.date;
+      let dateObj=new Date(date)
       let link = item.link;
       let guid = item.guid;
 
@@ -70,8 +75,14 @@ exports.handler = (event, context,callback) => {
         feed: feed,
         dedupid: feed.link+item.link
       };
-      result.push(entry);
-      console.log(JSON.stringify(entry,null,2));
+      let lastWeek = new Date(new Date().getTime()-7*86000000)
+      if(dateObj > lastWeek){
+        result.push(entry);
+        console.log(JSON.stringify(entry,null,2));
+      }else{
+        console.log("entry too old");
+        console.log(JSON.stringify(entry,null,2));
+      }
     }
   });
   feedparser.on('end', function(){
