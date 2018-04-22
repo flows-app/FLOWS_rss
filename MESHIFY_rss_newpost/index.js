@@ -80,8 +80,9 @@ exports.handler = (event, context,callback) => {
         result.push(entry);
         console.log(JSON.stringify(entry,null,2));
       }else{
-        console.log("entry too old");
-        console.log(JSON.stringify(entry,null,2));
+        //avoid log
+        //console.log("entry too old");
+        //console.log(JSON.stringify(entry,null,2));
       }
     }
   });
