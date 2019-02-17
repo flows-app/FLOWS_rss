@@ -3,10 +3,10 @@ const FEEDPARSER = require("feedparser");
 const REQUEST = require('request');
 
 exports.handler = (event, context,callback) => {
-  console.log("event");
-  console.log(event);
-  console.log("context");
-  console.log(context);
+  // console.log("event");
+  // console.log(event);
+  // console.log("context");
+  // console.log(context);
 
   var feedparser = new FEEDPARSER();
 
@@ -78,7 +78,7 @@ exports.handler = (event, context,callback) => {
       let lastWeek = new Date(new Date().getTime()-7*86000000)
       if(dateObj > lastWeek){
         result.push(entry);
-        console.log(JSON.stringify(entry,null,2));
+        // console.log(JSON.stringify(entry,null,2));
       }else{
         //avoid log
         //console.log("entry too old");
@@ -87,7 +87,7 @@ exports.handler = (event, context,callback) => {
     }
   });
   feedparser.on('end', function(){
-    console.log(JSON.stringify(result,null,2));
+    // console.log(JSON.stringify(result,null,2));
     callback(null,result);
   });
 }
