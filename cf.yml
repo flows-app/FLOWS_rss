@@ -10,6 +10,11 @@ Resources:
         Fn::GetAtt: [ LambdaRole , Arn ]
       Runtime: nodejs6.10
       Timeout: 300
+  newpostLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${newpostFunction}"
+      RetentionInDays: 7
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -30,7 +35,6 @@ Resources:
             Statement:
             - Effect: Allow
               Action:
-              - logs:CreateLogGroup
               - logs:CreateLogStream
               - logs:PutLogEvents
               Resource: arn:aws:logs:*:*:*
