@@ -3,11 +3,6 @@
     "lambda": "lambda-arn",
     "role": "iam-arn",
     "output": {
-        "schema": {
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "description": "parsed object",
-            "type": "object"
-        },
         "examples": {
             "result": {
               "title": "title",

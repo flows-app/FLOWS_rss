@@ -88,6 +88,21 @@ exports.handler = (event, context,callback) => {
   });
   feedparser.on('end', function(){
     // console.log(JSON.stringify(result,null,2));
-    callback(null,result);
+    //sort result by date desc
+    result = result.sort(function(a,b){
+      return new Date(b.date) - new Date(a.date);
+    });
+    //look for lastvalue entry
+    let lastvalue = context.clientContext.custom.lastvalue;
+    let finalresult = [];
+    for(let idx=0;idx<result.length;idx++){
+      if(result[idx].dedupid == lastvalue){
+        break;
+      }else{
+        finalresult.push(result[idx]);
+      }
+    }
+    //return result by date ascending
+    callback(null,finalresult.reverse());
   });
 }
