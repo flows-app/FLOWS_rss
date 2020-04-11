@@ -10,14 +10,21 @@ exports.handler = (event, context,callback) => {
 
   var feedparser = new FEEDPARSER();
 
-  //var req = request('http://somefeedurl.xml')
-  var req = REQUEST(event.url);
+  const options = {
+    url: event.url,
+    headers: {
+      'User-Agent': 'curl/7.64.1'
+    }
+  };
+  var req = REQUEST(options);
 
   var result = [];
 
   req.on('error', function (error) {
     // handle any request errors
+
     console.log("an error happened");
+    console.log(`while requesting ${event.url}`);
     console.log(error);
   });
 
@@ -25,7 +32,7 @@ exports.handler = (event, context,callback) => {
     var stream = this; // `this` is `req`, which is a stream
 
     if (res.statusCode !== 200) {
-      this.emit('error', new Error('Bad status code'));
+      this.emit('error', new Error(`Bad status code: ${res.statusCode}`));
     }
     else {
       stream.pipe(feedparser);
