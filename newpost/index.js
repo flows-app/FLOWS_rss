@@ -14,7 +14,8 @@ exports.handler = (event, context,callback) => {
     url: event.url,
     headers: {
       'User-Agent': 'curl/7.64.1'
-    }
+    },
+    gzip: true
   };
   var req = REQUEST(options);
 
